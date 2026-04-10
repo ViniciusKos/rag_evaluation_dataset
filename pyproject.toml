@@ -10,11 +10,16 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "black>=26.3.1",
+    "fsspec>=2023.1.0",
     "openai>=1.0.0",
     "tox>=4.52.1",
 ]
 
 [project.optional-dependencies]
+azure = [
+    "adlfs>=2023.1.0",
+    "azure-identity>=1.15.0",
+]
 dev = [
     "pytest>=8.0.0",
 ]

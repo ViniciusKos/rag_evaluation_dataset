@@ -11,8 +11,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--input-dir",
         required=True,
-        type=Path,
-        help="Directory containing individual .json files (one document per file).",
+        type=str,
+        help=(
+            "Source of .json documents. Accepts a local path or a remote URI "
+            "(e.g. az://container/prefix/, s3://bucket/prefix/)."
+        ),
     )
     parser.add_argument(
         "--search-fields",

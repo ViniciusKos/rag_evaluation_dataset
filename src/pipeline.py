@@ -34,7 +34,7 @@ from utils.io import build_corpus_texts, load_documents
 
 
 def run_pipeline(
-    input_dir: Path,
+    input_dir: str | Path,
     search_fields: list[str],
     output: Path,
     *,
