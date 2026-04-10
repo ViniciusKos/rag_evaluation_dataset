@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 from typing import TypedDict
 
 from src.llm_factory import LLMClient
@@ -14,11 +15,8 @@ class QAPair(TypedDict):
 
 
 _SYSTEM_PROMPT = (
-    "You are an expert at creating question-and-answer pairs for RAG evaluation. "
-    "Given an entity name and a document, generate one clear, factual question "
-    "whose answer is fully contained in the document. "
-    "Reply ONLY with a JSON object with two keys: \"question\" and \"answer\"."
-)
+    Path(__file__).parent / "prompts" / "generate_qa_pairs_system.md"
+).read_text(encoding="utf-8")
 
 
 def generate_qa_pairs(
