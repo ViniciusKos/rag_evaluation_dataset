@@ -10,6 +10,7 @@ Automatically generate question-answer pairs from a corpus of JSON documents to 
 - [Input document format](#input-document-format)
 - [Environment variables](#environment-variables)
 - [Usage](#usage)
+- [Remote storage](#remote-storage)
 - [Output format](#output-format)
 
 ---
@@ -26,14 +27,20 @@ pip install -e .
 
 # runtime + dev dependencies (pytest)
 pip install -e ".[dev]"
+
+# runtime + Azure Blob Storage support
+pip install -e ".[azure]"
 ```
 
 ### With uv
 
 ```bash
-uv sync          # runtime only
-uv sync --extra dev   # include dev dependencies
+uv sync                    # runtime only
+uv sync --extra dev        # include dev dependencies
+uv sync --extra azure      # include Azure Blob Storage support
 ```
+
+After installing, the `qa-generate` console script is available as an alternative to `python run_pipeline.py`.
 
 ---
 
@@ -72,6 +79,16 @@ If you run the pipeline with `--search-fields title description`, the tool will 
 | `AZURE_OPENAI_ENDPOINT` | Yes | Your Azure endpoint URL (e.g. `https://<resource>.openai.azure.com/`) |
 | `OPENAI_API_VERSION` | Yes | API version (e.g. `2024-02-01`) |
 
+### Azure Blob Storage (`az://` input URIs)
+
+The following variables are resolved in priority order:
+
+| Priority | Variable(s) | Description |
+|---|---|---|
+| 1 | `AZURE_STORAGE_CONNECTION_STRING` | Full connection string |
+| 2 | `AZURE_STORAGE_ACCOUNT_NAME` + `AZURE_STORAGE_ACCOUNT_KEY` | Account name and key |
+| 3 | `AZURE_STORAGE_ACCOUNT_NAME` (only) | Uses `DefaultAzureCredential` (managed identity, Azure CLI, workload identity, etc.) |
+
 You can export the variables in your shell or store them in a `.env` file and load it before running the pipeline.
 
 ```bash
@@ -86,20 +103,19 @@ $env:OPENAI_API_KEY = "sk-..."
 
 ## Usage
 
-```
-python run_pipeline.py \
-    --input-dir   <DIR>          \
-    --search-fields <FIELD ...>  \
-    --output      <FILE.json>    \
-    [--client     openai|azure]  \
-    [--model      <MODEL>]       \
-    [--embedding-model <MODEL>]  \
-    [--top-n      <N>]
+The pipeline can be invoked either via the installed script or directly:
+
+```bash
+# installed command
+qa-generate --input-dir <DIR> --search-fields <FIELD ...> --output <FILE.json> [options]
+
+# or via script
+python run_pipeline.py --input-dir <DIR> --search-fields <FIELD ...> --output <FILE.json> [options]
 ```
 
 | Argument | Required | Default | Description |
 |---|---|---|---|
-| `--input-dir` | Yes | — | Directory containing `.json` input files |
+| `--input-dir` | Yes | — | Local path **or** remote URI (e.g. `az://container/prefix/`, `s3://bucket/prefix/`) containing `.json` input files |
 | `--search-fields` | Yes | — | One or more document fields to use for entity extraction and corpus building |
 | `--output` | Yes | — | Path to the output JSON file |
 | `--client` | No | `openai` | LLM provider: `openai` or `azure` |
@@ -130,6 +146,27 @@ python run_pipeline.py \
     --client      azure \
     --model       my-gpt4o-deployment \
     --embedding-model my-embedding-deployment
+```
+
+---
+
+## Remote storage
+
+`--input-dir` accepts any URI supported by [fsspec](https://filesystem-spec.readthedocs.io/). The pipeline reads `.json` files transparently from:
+
+| Scheme | Backend | Extra install |
+|---|---|---|
+| `./path/` or `/abs/path/` | Local filesystem | — |
+| `az://container/prefix/` | Azure Blob Storage | `pip install -e ".[azure]"` |
+| `s3://bucket/prefix/` | Amazon S3 | `pip install s3fs` |
+| `gcs://bucket/prefix/` | Google Cloud Storage | `pip install gcsfs` |
+
+```bash
+# read documents from Azure Blob Storage
+python run_pipeline.py \
+    --input-dir   az://my-container/corpus/ \
+    --search-fields title description \
+    --output      qa_output.json
 ```
 
 ---

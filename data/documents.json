@@ -1,0 +1,27 @@
+[
+  {
+    "id": "1",
+    "title": "Albert Einstein",
+    "description": "Albert Einstein was a German-born theoretical physicist who developed the theory of relativity, one of the two pillars of modern physics."
+  },
+  {
+    "id": "2",
+    "title": "Marie Curie",
+    "description": "Marie Curie was a Polish and naturalized-French physicist and chemist who conducted pioneering research on radioactivity."
+  },
+  {
+    "id": "3",
+    "title": "Isaac Newton",
+    "description": "Isaac Newton was an English mathematician and physicist who formulated the laws of motion and universal gravitation."
+  },
+  {
+    "id": "4",
+    "title": "Charles Darwin",
+    "description": "Charles Darwin was an English naturalist who developed the theory of evolution by natural selection, published in On the Origin of Species in 1859."
+  },
+  {
+    "id": "5",
+    "title": "Nikola Tesla",
+    "description": "Nikola Tesla was a Serbian-American inventor and electrical engineer best known for his contributions to the design of the modern alternating current electricity supply system."
+  }
+]

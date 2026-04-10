@@ -6,15 +6,16 @@ from pathlib import Path
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Generate QA pairs from a directory of JSON documents.",
+        description="Generate QA pairs from a JSON file containing multiple records.",
     )
     parser.add_argument(
-        "--input-dir",
+        "--input-file",
         required=True,
         type=str,
         help=(
-            "Source of .json documents. Accepts a local path or a remote URI "
-            "(e.g. az://container/prefix/, s3://bucket/prefix/)."
+            "Path to a JSON file containing a list of document records. "
+            "Accepts a local path or a remote URI "
+            "(e.g. az://container/docs.json, s3://bucket/docs.json)."
         ),
     )
     parser.add_argument(

@@ -3,7 +3,7 @@
 Usage (installed command)
 -------------------------
 qa-generate \\
-    --input-dir  ./docs \\
+    --input-file ./docs/documents.json \\
     --search-fields title description \\
     --output     qa_output.json \\
     [--client    openai|azure] \\
@@ -34,7 +34,7 @@ from utils.io import build_corpus_texts, load_documents
 
 
 def run_pipeline(
-    input_dir: str | Path,
+    input_file: str | Path,
     search_fields: list[str],
     output: Path,
     *,
@@ -51,7 +51,7 @@ def run_pipeline(
         client = create_openai_client()
 
     # ── 2. Load documents & build corpus ─────────────────────────────────────
-    documents = load_documents(input_dir)
+    documents = load_documents(input_file)
     if not documents:
         print("[warning] No documents to process. Exiting.", file=sys.stderr)
         return []
@@ -113,7 +113,7 @@ def run_pipeline(
 def main() -> None:
     args = build_parser().parse_args()
     run_pipeline(
-        input_dir=args.input_dir,
+        input_file=args.input_file,
         search_fields=args.search_fields,
         output=args.output,
         client_type=args.client,

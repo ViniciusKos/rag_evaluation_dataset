@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import os
-import sys
 from pathlib import Path
 
 import fsspec  # type: ignore[import-untyped]
@@ -49,33 +48,38 @@ def _storage_options(path: str) -> dict:
 # ── Public API ────────────────────────────────────────────────────────────────
 
 
-def load_documents(input_dir: str | Path) -> list[dict]:
-    """Load all .json files in *input_dir* and return them as a list of dicts.
+def load_documents(input_file: str | Path) -> list[dict]:
+    """Load a single JSON file containing a list of document records.
 
-    *input_dir* can be a local path or a remote URI supported by fsspec:
-    - Local:        ``./data/`` or ``/abs/path/``
-    - Azure Blob:   ``az://container/prefix/``
-    - S3:           ``s3://bucket/prefix/``
-    - GCS:          ``gcs://bucket/prefix/``
+    *input_file* can be a local path or a remote URI supported by fsspec:
+    - Local:        ``./data/docs.json`` or ``/abs/path/docs.json``
+    - Azure Blob:   ``az://container/docs.json``
+    - S3:           ``s3://bucket/docs.json``
+    - GCS:          ``gcs://bucket/docs.json``
+
+    The file must contain a JSON array of objects, e.g.::
+
+        [
+            {"id": "1", "title": "Doc A", ...},
+            {"id": "2", "title": "Doc B", ...}
+        ]
 
     Azure authentication is resolved from environment variables (see
     ``_azure_storage_options`` for priority order).
     """
-    path = str(input_dir).rstrip("/\\")
-    pattern = f"{path}/*.json"
+    path = str(input_file)
     options = _storage_options(path)
 
-    open_files = fsspec.open_files(pattern, "r", encoding="utf-8", **options)
-    if not open_files:
-        print(f"[warning] No .json files found in '{input_dir}'.", file=sys.stderr)
-        return []
+    with fsspec.open(path, "r", encoding="utf-8", **options) as fh:
+        data = json.load(fh)
 
-    documents: list[dict] = []
-    for of in sorted(open_files, key=lambda f: f.path):
-        with of as fh:
-            documents.append(json.load(fh))
-    print(f"[info] Loaded {len(documents)} document(s) from '{input_dir}'.")
-    return documents
+    if not isinstance(data, list):
+        raise ValueError(
+            f"Expected a JSON array in '{input_file}', got {type(data).__name__}."
+        )
+
+    print(f"[info] Loaded {len(data)} document(s) from '{input_file}'.")
+    return data
 
 
 def build_corpus_texts(documents: list[dict], search_fields: list[str]) -> list[str]:
