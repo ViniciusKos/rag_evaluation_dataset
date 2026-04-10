@@ -16,7 +16,7 @@ Automatically generate question-answer pairs from a corpus of JSON documents to 
 
 ## Installation
 
-Requires **Python ≥ 3.13**.
+Requires **Python ≥ 3.10**.
 
 ### With pip
 
