@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "qa-pairs-generator-for-rag-evaluation"
+name = "rag_evaluation_dataset"
 version = "0.1.0"
 description = "Generate QA pairs from JSON documents to evaluate RAG pipelines"
 readme = "README.md"
