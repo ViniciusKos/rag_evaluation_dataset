@@ -97,7 +97,12 @@ def run_pipeline(
 
     # ── 5. Generate QA pairs ──────────────────────────────────────────────────
     logger.info("Generating QA pairs…")
-    qa_pairs = generate_qa_pairs(entity_documents, client, model=model, n_questions_per_entity=questions_per_entity)
+    qa_pairs = generate_qa_pairs(
+        entity_documents,
+        client,
+        model=model,
+        n_questions_per_entity=questions_per_entity,
+    )
     logger.success(f"Generated {len(qa_pairs)} QA pair(s).")
 
     # ── 6. Write output ───────────────────────────────────────────────────────
