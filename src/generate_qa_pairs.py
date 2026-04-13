@@ -46,34 +46,40 @@ def generate_qa_pairs(
     """
     qa_pairs: list[QAPair] = []
 
-    total_calls = len(entity_documents) * n_questions_per_entity
-    with tqdm(total=total_calls, desc="Generating QA pairs", unit="pair") as pbar:
+    with tqdm(
+        total=len(entity_documents), desc="Generating QA pairs", unit="entity"
+    ) as pbar:
         for entity, documents in entity_documents.items():
             combined_document = "\n\n---\n\n".join(documents)
-            user_message = f"Entity: {entity}\n\nDocument:\n{combined_document}"
-            for _ in range(n_questions_per_entity):
-                response = client.chat.completions.create(
-                    model=model,
-                    messages=[
-                        {"role": "system", "content": _SYSTEM_PROMPT},
-                        {"role": "user", "content": user_message},
-                    ],
-                    response_format={"type": "json_object"},
-                    temperature=0.2,
-                )
+            user_message = (
+                f"Entity: {entity}\n\n"
+                f"Document:\n{combined_document}\n\n"
+                f"N: {n_questions_per_entity}"
+            )
 
-                raw = response.choices[0].message.content or "{}"
-                parsed: dict[str, str] = json.loads(raw)
+            response = client.chat.completions.create(
+                model=model,
+                messages=[
+                    {"role": "system", "content": _SYSTEM_PROMPT},
+                    {"role": "user", "content": user_message},
+                ],
+                response_format={"type": "json_object"},
+                temperature=0.2,
+            )
 
+            raw = response.choices[0].message.content or "{}"
+            parsed = json.loads(raw)
+
+            for pair in parsed.get("pairs", []):
                 qa_pairs.append(
                     QAPair(
                         entity=entity,
-                        question=parsed.get("question", ""),
-                        answer=parsed.get("answer", ""),
+                        question=pair.get("question", ""),
+                        answer=pair.get("answer", ""),
                         source_document=combined_document,
                     )
                 )
-                pbar.set_postfix(entity=entity)
-                pbar.update(1)
+            pbar.set_postfix(entity=entity)
+            pbar.update(1)
 
     return qa_pairs

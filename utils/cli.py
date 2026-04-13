@@ -59,4 +59,14 @@ def build_parser() -> argparse.ArgumentParser:
         default=3,
         help="Number of questions to generate per entity (default: 3).",
     )
+    parser.add_argument(
+        "--max-records-load",
+        type=int,
+        default=None,
+        help=(
+            "Maximum number of records to load from the input file. "
+            "Useful for testing with a subset of data (default: None, which means no limit)."
+        ),
+    )
+
     return parser

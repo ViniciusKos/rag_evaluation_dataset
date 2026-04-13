@@ -44,6 +44,7 @@ def run_pipeline(
     embedding_model: str = "text-embedding-3-small",
     top_n: int = 3,
     questions_per_entity: int = 3,
+    max_records_load: int | None = None,
 ) -> list[QAPair]:
     # ── 1. LLM client ────────────────────────────────────────────────────────
     client: LLMClient
@@ -57,6 +58,8 @@ def run_pipeline(
     if not documents:
         logger.warning("No documents to process. Exiting.")
         return []
+
+    documents = documents[:max_records_load] if max_records_load else documents
 
     corpus_texts = build_corpus_texts(documents, search_fields)
 
@@ -128,4 +131,5 @@ def main() -> None:
         embedding_model=args.embedding_model,
         top_n=args.top_n,
         questions_per_entity=args.questions_per_entity,
+        max_records_load=args.max_records_load,
     )
