@@ -39,8 +39,8 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--model",
-        default="gpt-4o-mini",
-        help="Chat model for entity extraction and QA generation (default: gpt-4o-mini).",
+        default="gpt-5.4-mini",
+        help="Chat model for entity extraction and QA generation (default: gpt-5.4-mini).",
     )
     parser.add_argument(
         "--embedding-model",
@@ -52,5 +52,11 @@ def build_parser() -> argparse.ArgumentParser:
         type=int,
         default=3,
         help="Number of documents to retrieve per entity via embedding search (default: 3).",
+    )
+    parser.add_argument(
+        "--questions-per-entity",
+        type=int,
+        default=3,
+        help="Number of questions to generate per entity (default: 3).",
     )
     return parser

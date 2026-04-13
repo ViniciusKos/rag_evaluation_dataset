@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from src.entity_search import extract_entities
 from src.llm_factory import LLMClient
+from loguru import logger
 
 
 def extract_all_entities(
@@ -15,12 +16,12 @@ def extract_all_entities(
     ordered: list[str] = []
     for i, doc in enumerate(documents):
         entities = extract_entities(doc, search_fields, client, model=model)
-        print(
-            f"[info] Document {i + 1}/{len(documents)}: {len(entities)} entity(ies) extracted."
+        logger.debug(
+            f"Document {i + 1}/{len(documents)}: {len(entities)} entity(ies) extracted."
         )
         for entity in entities:
             if entity not in seen:
                 seen.add(entity)
                 ordered.append(entity)
-    print(f"[info] Total unique entities: {len(ordered)}.")
+    logger.success(f"Total unique entities: {len(ordered)}.")
     return ordered

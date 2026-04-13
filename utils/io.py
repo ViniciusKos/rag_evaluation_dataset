@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 
 import fsspec  # type: ignore[import-untyped]
+from loguru import logger
 
 # ── Authentication helpers ────────────────────────────────────────────────────
 
@@ -78,7 +79,7 @@ def load_documents(input_file: str | Path) -> list[dict]:
             f"Expected a JSON array in '{input_file}', got {type(data).__name__}."
         )
 
-    print(f"[info] Loaded {len(data)} document(s) from '{input_file}'.")
+    logger.success(f"Loaded {len(data)} document(s) from '{input_file}'.")
     return data
 
 

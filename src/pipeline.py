@@ -19,8 +19,9 @@ python run_pipeline.py <same flags>
 from __future__ import annotations
 
 import json
-import sys
 from pathlib import Path
+
+from loguru import logger
 
 from src.embedding_search import find_top_n_similar, get_embeddings
 from src.entity_search import entity_document_search
@@ -42,6 +43,7 @@ def run_pipeline(
     model: str = "gpt-5.4-mini",
     embedding_model: str = "text-embedding-3-small",
     top_n: int = 3,
+    questions_per_entity: int = 3,
 ) -> list[QAPair]:
     # ── 1. LLM client ────────────────────────────────────────────────────────
     client: LLMClient
@@ -53,20 +55,20 @@ def run_pipeline(
     # ── 2. Load documents & build corpus ─────────────────────────────────────
     documents = load_documents(input_file)
     if not documents:
-        print("[warning] No documents to process. Exiting.", file=sys.stderr)
+        logger.warning("No documents to process. Exiting.")
         return []
 
     corpus_texts = build_corpus_texts(documents, search_fields)
 
     # ── 3. Extract entities ───────────────────────────────────────────────────
-    print("[info] Extracting entities from documents…")
+    logger.info("Extracting entities from documents…")
     entities = extract_all_entities(documents, search_fields, client, model)
     if not entities:
-        print("[warning] No entities extracted. Exiting.", file=sys.stderr)
+        logger.warning("No entities extracted. Exiting.")
         return []
 
     # ── 4. Hybrid entity-document search ─────────────────────────────────────
-    print("[info] Running hybrid entity-document search…")
+    logger.info("Running hybrid entity-document search…")
 
     # Keyword pass
     keyword_results = entity_document_search(entities, corpus_texts)
@@ -91,18 +93,18 @@ def run_pipeline(
                 combined.append(doc)
         entity_documents[entity] = combined
     total_pairs = sum(len(docs) for docs in entity_documents.values())
-    print(f"[info] {total_pairs} entity-QA(s) to process.")
+    logger.debug(f"{total_pairs} entity-QA(s) to process.")
 
     # ── 5. Generate QA pairs ──────────────────────────────────────────────────
-    print("[info] Generating QA pairs…")
-    qa_pairs = generate_qa_pairs(entity_documents, client, model=model)
-    print(f"[info] Generated {len(qa_pairs)} QA pair(s).")
+    logger.info("Generating QA pairs…")
+    qa_pairs = generate_qa_pairs(entity_documents, client, model=model, n_questions_per_entity=questions_per_entity)
+    logger.success(f"Generated {len(qa_pairs)} QA pair(s).")
 
     # ── 6. Write output ───────────────────────────────────────────────────────
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open("w", encoding="utf-8") as fh:
         json.dump(qa_pairs, fh, ensure_ascii=False, indent=2)
-    print(f"[info] Output written to '{output}'.")
+    logger.success(f"Output written to '{output}'.")
 
     return qa_pairs
 
@@ -120,4 +122,5 @@ def main() -> None:
         model=args.model,
         embedding_model=args.embedding_model,
         top_n=args.top_n,
+        questions_per_entity=args.questions_per_entity,
     )

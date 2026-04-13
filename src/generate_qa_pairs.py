@@ -4,6 +4,8 @@ import json
 from pathlib import Path
 from typing import TypedDict
 
+from tqdm import tqdm
+
 from src.llm_factory import LLMClient
 
 
@@ -22,7 +24,8 @@ _SYSTEM_PROMPT = (
 def generate_qa_pairs(
     entity_documents: dict[str, list[str]],
     client: LLMClient,
-    model: str = "gpt-4o-mini",
+    model: str = "gpt-5.4-mini",
+    n_questions_per_entity: int = 3,
 ) -> list[QAPair]:
     """Generate QA pairs for every (entity, document) combination.
 
@@ -43,29 +46,34 @@ def generate_qa_pairs(
     """
     qa_pairs: list[QAPair] = []
 
-    for entity, documents in entity_documents.items():
-        combined_document = "\n\n---\n\n".join(documents)
-        user_message = f"Entity: {entity}\n\nDocument:\n{combined_document}"
-        response = client.chat.completions.create(
-            model=model,
-            messages=[
-                {"role": "system", "content": _SYSTEM_PROMPT},
-                {"role": "user", "content": user_message},
-            ],
-            response_format={"type": "json_object"},
-            temperature=0.2,
-        )
+    total_calls = len(entity_documents) * n_questions_per_entity
+    with tqdm(total=total_calls, desc="Generating QA pairs", unit="pair") as pbar:
+        for entity, documents in entity_documents.items():
+            combined_document = "\n\n---\n\n".join(documents)
+            user_message = f"Entity: {entity}\n\nDocument:\n{combined_document}"
+            for _ in range(n_questions_per_entity):
+                response = client.chat.completions.create(
+                    model=model,
+                    messages=[
+                        {"role": "system", "content": _SYSTEM_PROMPT},
+                        {"role": "user", "content": user_message},
+                    ],
+                    response_format={"type": "json_object"},
+                    temperature=0.2,
+                )
 
-        raw = response.choices[0].message.content or "{}"
-        parsed: dict[str, str] = json.loads(raw)
+                raw = response.choices[0].message.content or "{}"
+                parsed: dict[str, str] = json.loads(raw)
 
-        qa_pairs.append(
-            QAPair(
-                entity=entity,
-                question=parsed.get("question", ""),
-                answer=parsed.get("answer", ""),
-                source_document=combined_document,
-            )
-        )
+                qa_pairs.append(
+                    QAPair(
+                        entity=entity,
+                        question=parsed.get("question", ""),
+                        answer=parsed.get("answer", ""),
+                        source_document=combined_document,
+                    )
+                )
+                pbar.set_postfix(entity=entity)
+                pbar.update(1)
 
     return qa_pairs
