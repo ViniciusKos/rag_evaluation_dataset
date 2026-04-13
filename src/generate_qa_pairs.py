@@ -44,28 +44,28 @@ def generate_qa_pairs(
     qa_pairs: list[QAPair] = []
 
     for entity, documents in entity_documents.items():
-        for document in documents:
-            user_message = f"Entity: {entity}\n\nDocument:\n{document}"
-            response = client.chat.completions.create(
-                model=model,
-                messages=[
-                    {"role": "system", "content": _SYSTEM_PROMPT},
-                    {"role": "user", "content": user_message},
-                ],
-                response_format={"type": "json_object"},
-                temperature=0.2,
-            )
+        combined_document = "\n\n---\n\n".join(documents)
+        user_message = f"Entity: {entity}\n\nDocument:\n{combined_document}"
+        response = client.chat.completions.create(
+            model=model,
+            messages=[
+                {"role": "system", "content": _SYSTEM_PROMPT},
+                {"role": "user", "content": user_message},
+            ],
+            response_format={"type": "json_object"},
+            temperature=0.2,
+        )
 
-            raw = response.choices[0].message.content or "{}"
-            parsed: dict[str, str] = json.loads(raw)
+        raw = response.choices[0].message.content or "{}"
+        parsed: dict[str, str] = json.loads(raw)
 
-            qa_pairs.append(
-                QAPair(
-                    entity=entity,
-                    question=parsed.get("question", ""),
-                    answer=parsed.get("answer", ""),
-                    source_document=document,
-                )
+        qa_pairs.append(
+            QAPair(
+                entity=entity,
+                question=parsed.get("question", ""),
+                answer=parsed.get("answer", ""),
+                source_document=combined_document,
             )
+        )
 
     return qa_pairs

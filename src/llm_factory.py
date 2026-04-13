@@ -1,5 +1,8 @@
 import os
 from openai import AzureOpenAI, OpenAI
+from dotenv import load_dotenv
+
+load_dotenv()
 
 LLMClient = OpenAI | AzureOpenAI
 

@@ -1,27 +1,27 @@
 [
   {
-    "id": "1",
-    "title": "Albert Einstein",
-    "description": "Albert Einstein was a German-born theoretical physicist who developed the theory of relativity, one of the two pillars of modern physics."
+    "id": "101",
+    "title": "Fix login page timeout issue",
+    "description": "Users are experiencing session timeouts after 5 minutes of inactivity on the login page, even when the 'Remember me' option is selected. The expected behavior is that the session should persist for 30 days when this option is checked. This affects all browsers and was introduced in release 2.4.1."
   },
   {
-    "id": "2",
-    "title": "Marie Curie",
-    "description": "Marie Curie was a Polish and naturalized-French physicist and chemist who conducted pioneering research on radioactivity."
+    "id": "102",
+    "title": "Implement dark mode support",
+    "description": "As a user, I want to be able to switch between light and dark themes in the application settings so that I can reduce eye strain when working in low-light environments. The theme preference should be persisted across sessions and applied consistently across all pages."
   },
   {
-    "id": "3",
-    "title": "Isaac Newton",
-    "description": "Isaac Newton was an English mathematician and physicist who formulated the laws of motion and universal gravitation."
+    "id": "103",
+    "title": "Migrate database from SQL Server 2016 to SQL Server 2022",
+    "description": "The current SQL Server 2016 instance is reaching end-of-support in July 2026. We need to plan and execute a migration to SQL Server 2022 to ensure continued security updates and support. The migration must include schema validation, data integrity checks, and a rollback plan."
   },
   {
-    "id": "4",
-    "title": "Charles Darwin",
-    "description": "Charles Darwin was an English naturalist who developed the theory of evolution by natural selection, published in On the Origin of Species in 1859."
+    "id": "104",
+    "title": "Add export to CSV feature in reports module",
+    "description": "Users need the ability to export report data to CSV format directly from the reports dashboard. The export should respect the current filters and date range applied by the user, include column headers, and handle large datasets (up to 100,000 rows) without causing browser or server timeouts."
   },
   {
-    "id": "5",
-    "title": "Nikola Tesla",
-    "description": "Nikola Tesla was a Serbian-American inventor and electrical engineer best known for his contributions to the design of the modern alternating current electricity supply system."
+    "id": "105",
+    "title": "CI/CD pipeline fails on pull request validation step",
+    "description": "The Azure Pipelines build for the main repository is intermittently failing at the unit test stage during PR validation. The error message is 'Unable to connect to test agent'. This has been occurring since the pipeline agent pool was updated last week and is blocking developers from merging changes."
   }
 ]

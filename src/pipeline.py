@@ -39,7 +39,7 @@ def run_pipeline(
     output: Path,
     *,
     client_type: str = "openai",
-    model: str = "gpt-4o-mini",
+    model: str = "gpt-5.4-mini",
     embedding_model: str = "text-embedding-3-small",
     top_n: int = 3,
 ) -> list[QAPair]:
@@ -91,7 +91,7 @@ def run_pipeline(
                 combined.append(doc)
         entity_documents[entity] = combined
     total_pairs = sum(len(docs) for docs in entity_documents.values())
-    print(f"[info] {total_pairs} (entity, document) pair(s) to process.")
+    print(f"[info] {total_pairs} entity-QA(s) to process.")
 
     # ── 5. Generate QA pairs ──────────────────────────────────────────────────
     print("[info] Generating QA pairs…")
