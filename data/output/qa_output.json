@@ -1,0 +1,98 @@
+[
+  {
+    "entity": "login page",
+    "question": "What is the login page timeout issue described in the document, and what behavior is expected when 'Remember me' is selected?",
+    "answer": "Users are experiencing session timeouts after 5 minutes of inactivity on the login page even when 'Remember me' is selected. The expected behavior is that the session should persist for 30 days when this option is checked.",
+    "source_document": "Fix login page timeout issue\nUsers are experiencing session timeouts after 5 minutes of inactivity on the login page, even when the 'Remember me' option is selected. The expected behavior is that the session should persist for 30 days when this option is checked. This affects all browsers and was introduced in release 2.4.1.\n\n---\n\nImplement dark mode support\nAs a user, I want to be able to switch between light and dark themes in the application settings so that I can reduce eye strain when working in low-light environments. The theme preference should be persisted across sessions and applied consistently across all pages."
+  },
+  {
+    "entity": "session timeout",
+    "question": "What is the current session timeout issue on the login page, and what should happen when 'Remember me' is selected?",
+    "answer": "Users are being timed out after 5 minutes of inactivity on the login page, even when 'Remember me' is selected. The expected behavior is that the session should persist for 30 days when that option is checked.",
+    "source_document": "Fix login page timeout issue\nUsers are experiencing session timeouts after 5 minutes of inactivity on the login page, even when the 'Remember me' option is selected. The expected behavior is that the session should persist for 30 days when this option is checked. This affects all browsers and was introduced in release 2.4.1.\n\n---\n\nImplement dark mode support\nAs a user, I want to be able to switch between light and dark themes in the application settings so that I can reduce eye strain when working in low-light environments. The theme preference should be persisted across sessions and applied consistently across all pages."
+  },
+  {
+    "entity": "inactivity timeout",
+    "question": "What is the current inactivity timeout issue on the login page, and what behavior is expected when 'Remember me' is selected?",
+    "answer": "Users are being logged out after 5 minutes of inactivity on the login page even when 'Remember me' is checked. The expected behavior is for the session to persist for 30 days when that option is selected.",
+    "source_document": "Fix login page timeout issue\nUsers are experiencing session timeouts after 5 minutes of inactivity on the login page, even when the 'Remember me' option is selected. The expected behavior is that the session should persist for 30 days when this option is checked. This affects all browsers and was introduced in release 2.4.1.\n\n---\n\nImplement dark mode support\nAs a user, I want to be able to switch between light and dark themes in the application settings so that I can reduce eye strain when working in low-light environments. The theme preference should be persisted across sessions and applied consistently across all pages."
+  },
+  {
+    "entity": "Remember me",
+    "question": "What is the expected session duration when the \"Remember me\" option is selected on the login page, and what issue is currently happening instead?",
+    "answer": "When \"Remember me\" is checked, the session should persist for 30 days. Instead, users are experiencing session timeouts after 5 minutes of inactivity on the login page.",
+    "source_document": "Fix login page timeout issue\nUsers are experiencing session timeouts after 5 minutes of inactivity on the login page, even when the 'Remember me' option is selected. The expected behavior is that the session should persist for 30 days when this option is checked. This affects all browsers and was introduced in release 2.4.1.\n\n---\n\nImplement dark mode support\nAs a user, I want to be able to switch between light and dark themes in the application settings so that I can reduce eye strain when working in low-light environments. The theme preference should be persisted across sessions and applied consistently across all pages."
+  },
+  {
+    "entity": "session persistence",
+    "question": "What is the expected session persistence behavior when the 'Remember me' option is selected on the login page, and what issue is currently occurring instead?",
+    "answer": "When 'Remember me' is selected, the session should persist for 30 days. Instead, users are experiencing session timeouts after 5 minutes of inactivity on the login page.",
+    "source_document": "Fix login page timeout issue\nUsers are experiencing session timeouts after 5 minutes of inactivity on the login page, even when the 'Remember me' option is selected. The expected behavior is that the session should persist for 30 days when this option is checked. This affects all browsers and was introduced in release 2.4.1.\n\n---\n\nImplement dark mode support\nAs a user, I want to be able to switch between light and dark themes in the application settings so that I can reduce eye strain when working in low-light environments. The theme preference should be persisted across sessions and applied consistently across all pages."
+  },
+  {
+    "entity": "30 days",
+    "question": "When the 'Remember me' option is selected on the login page, how long should the session persist instead of timing out after 5 minutes of inactivity?",
+    "answer": "The session should persist for 30 days.",
+    "source_document": "Fix login page timeout issue\nUsers are experiencing session timeouts after 5 minutes of inactivity on the login page, even when the 'Remember me' option is selected. The expected behavior is that the session should persist for 30 days when this option is checked. This affects all browsers and was introduced in release 2.4.1.\n\n---\n\nImplement dark mode support\nAs a user, I want to be able to switch between light and dark themes in the application settings so that I can reduce eye strain when working in low-light environments. The theme preference should be persisted across sessions and applied consistently across all pages."
+  },
+  {
+    "entity": "all browsers",
+    "question": "What issue affects all browsers in release 2.4.1, and what is the expected behavior when 'Remember me' is selected on the login page?",
+    "answer": "Users are experiencing session timeouts after 5 minutes of inactivity on the login page, even when 'Remember me' is selected. The expected behavior is that the session should persist for 30 days when this option is checked.",
+    "source_document": "Fix login page timeout issue\nUsers are experiencing session timeouts after 5 minutes of inactivity on the login page, even when the 'Remember me' option is selected. The expected behavior is that the session should persist for 30 days when this option is checked. This affects all browsers and was introduced in release 2.4.1.\n\n---\n\nImplement dark mode support\nAs a user, I want to be able to switch between light and dark themes in the application settings so that I can reduce eye strain when working in low-light environments. The theme preference should be persisted across sessions and applied consistently across all pages."
+  },
+  {
+    "entity": "release 2.4.1",
+    "question": "What issue was introduced in release 2.4.1 related to the login page, and what is the expected behavior when 'Remember me' is selected?",
+    "answer": "Release 2.4.1 introduced a login page timeout issue where users are logged out after 5 minutes of inactivity even if 'Remember me' is checked. The expected behavior is for the session to persist for 30 days when that option is selected.",
+    "source_document": "Fix login page timeout issue\nUsers are experiencing session timeouts after 5 minutes of inactivity on the login page, even when the 'Remember me' option is selected. The expected behavior is that the session should persist for 30 days when this option is checked. This affects all browsers and was introduced in release 2.4.1.\n\n---\n\nImplement dark mode support\nAs a user, I want to be able to switch between light and dark themes in the application settings so that I can reduce eye strain when working in low-light environments. The theme preference should be persisted across sessions and applied consistently across all pages."
+  },
+  {
+    "entity": "dark mode",
+    "question": "How does dark mode work in the application settings, and what happens to the theme preference after I switch it?",
+    "answer": "Users can switch between light and dark themes in the application settings. The selected theme preference is persisted across sessions and applied consistently across all pages.",
+    "source_document": "Implement dark mode support\nAs a user, I want to be able to switch between light and dark themes in the application settings so that I can reduce eye strain when working in low-light environments. The theme preference should be persisted across sessions and applied consistently across all pages.\n\n---\n\nFix login page timeout issue\nUsers are experiencing session timeouts after 5 minutes of inactivity on the login page, even when the 'Remember me' option is selected. The expected behavior is that the session should persist for 30 days when this option is checked. This affects all browsers and was introduced in release 2.4.1."
+  },
+  {
+    "entity": "light theme",
+    "question": "How can a user switch between light and dark themes in the application, and what should happen to the chosen theme afterward?",
+    "answer": "Users should be able to switch between light and dark themes in the application settings. The selected theme preference should be persisted across sessions and applied consistently across all pages.",
+    "source_document": "Implement dark mode support\nAs a user, I want to be able to switch between light and dark themes in the application settings so that I can reduce eye strain when working in low-light environments. The theme preference should be persisted across sessions and applied consistently across all pages.\n\n---\n\nFix login page timeout issue\nUsers are experiencing session timeouts after 5 minutes of inactivity on the login page, even when the 'Remember me' option is selected. The expected behavior is that the session should persist for 30 days when this option is checked. This affects all browsers and was introduced in release 2.4.1."
+  },
+  {
+    "entity": "dark theme",
+    "question": "How can a user switch between light and dark themes, and what happens to that preference after they leave the app?",
+    "answer": "Users can switch between light and dark themes in the application settings. The selected theme preference is persisted across sessions and applied consistently across all pages.",
+    "source_document": "Implement dark mode support\nAs a user, I want to be able to switch between light and dark themes in the application settings so that I can reduce eye strain when working in low-light environments. The theme preference should be persisted across sessions and applied consistently across all pages.\n\n---\n\nFix login page timeout issue\nUsers are experiencing session timeouts after 5 minutes of inactivity on the login page, even when the 'Remember me' option is selected. The expected behavior is that the session should persist for 30 days when this option is checked. This affects all browsers and was introduced in release 2.4.1."
+  },
+  {
+    "entity": "application settings",
+    "question": "What theme options are available in the application settings, and what happens to the selected theme after the user changes it?",
+    "answer": "The application settings support switching between light and dark themes. The chosen theme preference is persisted across sessions and applied consistently across all pages.",
+    "source_document": "Implement dark mode support\nAs a user, I want to be able to switch between light and dark themes in the application settings so that I can reduce eye strain when working in low-light environments. The theme preference should be persisted across sessions and applied consistently across all pages.\n\n---\n\nFix login page timeout issue\nUsers are experiencing session timeouts after 5 minutes of inactivity on the login page, even when the 'Remember me' option is selected. The expected behavior is that the session should persist for 30 days when this option is checked. This affects all browsers and was introduced in release 2.4.1."
+  },
+  {
+    "entity": "theme preference",
+    "question": "How can a user switch between light and dark themes, and what should happen to that preference across the app?",
+    "answer": "Users should be able to switch between light and dark themes in the application settings. The theme preference should be persisted across sessions and applied consistently across all pages.",
+    "source_document": "Implement dark mode support\nAs a user, I want to be able to switch between light and dark themes in the application settings so that I can reduce eye strain when working in low-light environments. The theme preference should be persisted across sessions and applied consistently across all pages.\n\n---\n\nFix login page timeout issue\nUsers are experiencing session timeouts after 5 minutes of inactivity on the login page, even when the 'Remember me' option is selected. The expected behavior is that the session should persist for 30 days when this option is checked. This affects all browsers and was introduced in release 2.4.1."
+  },
+  {
+    "entity": "persisted across sessions",
+    "question": "How should the theme preference behave after a user switches between light and dark mode in the application settings?",
+    "answer": "The theme preference should be persisted across sessions and applied consistently across all pages.",
+    "source_document": "Implement dark mode support\nAs a user, I want to be able to switch between light and dark themes in the application settings so that I can reduce eye strain when working in low-light environments. The theme preference should be persisted across sessions and applied consistently across all pages.\n\n---\n\nFix login page timeout issue\nUsers are experiencing session timeouts after 5 minutes of inactivity on the login page, even when the 'Remember me' option is selected. The expected behavior is that the session should persist for 30 days when this option is checked. This affects all browsers and was introduced in release 2.4.1."
+  },
+  {
+    "entity": "all pages",
+    "question": "What changes are needed to support dark mode across all pages, and how should the theme preference behave?",
+    "answer": "The application should let users switch between light and dark themes in the settings. The chosen theme should be saved across sessions and applied consistently on all pages so users can reduce eye strain in low-light environments.",
+    "source_document": "Implement dark mode support\nAs a user, I want to be able to switch between light and dark themes in the application settings so that I can reduce eye strain when working in low-light environments. The theme preference should be persisted across sessions and applied consistently across all pages.\n\n---\n\nFix login page timeout issue\nUsers are experiencing session timeouts after 5 minutes of inactivity on the login page, even when the 'Remember me' option is selected. The expected behavior is that the session should persist for 30 days when this option is checked. This affects all browsers and was introduced in release 2.4.1."
+  },
+  {
+    "entity": "switch between light and dark themes",
+    "question": "How can a user switch between light and dark themes in the application, and what happens to that preference after they leave and return?",
+    "answer": "The user can switch between light and dark themes in the application settings. The theme preference is persisted across sessions and applied consistently across all pages.",
+    "source_document": "Implement dark mode support\nAs a user, I want to be able to switch between light and dark themes in the application settings so that I can reduce eye strain when working in low-light environments. The theme preference should be persisted across sessions and applied consistently across all pages.\n\n---\n\nFix login page timeout issue\nUsers are experiencing session timeouts after 5 minutes of inactivity on the login page, even when the 'Remember me' option is selected. The expected behavior is that the session should persist for 30 days when this option is checked. This affects all browsers and was introduced in release 2.4.1."
+  }
+]

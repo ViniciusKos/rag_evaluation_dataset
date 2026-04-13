@@ -25,7 +25,7 @@ def cosine_similarity(vec_a: list[float], vec_b: list[float]) -> float:
     return dot / (norm_a * norm_b)
 
 
-def find_top_n_similar(
+def find_top_n_similar_records(
     query_embedding: list[float],
     corpus_embeddings: list[list[float]],
     n: int,

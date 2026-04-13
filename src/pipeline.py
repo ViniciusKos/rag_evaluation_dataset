@@ -23,7 +23,7 @@ from pathlib import Path
 
 from loguru import logger
 
-from src.embedding_search import find_top_n_similar, get_embeddings
+from src.embedding_search import find_top_n_similar_records, get_embeddings
 from src.entity_search import entity_document_search
 from src.generate_qa_pairs import QAPair, generate_qa_pairs
 from src.llm_factory import LLMClient, create_azure_openai_client, create_openai_client
@@ -35,14 +35,14 @@ from utils.io import build_corpus_texts, load_documents
 
 
 def run_pipeline(
-    input_file: str | Path,
     search_fields: list[str],
-    output: Path,
     *,
+    input_file: str | Path = Path("data/input/documents.json"),
+    output: Path = Path("data/output/qa_pairs.json"),
     client_type: str = "openai",
     model: str = "gpt-5.4-mini",
     embedding_model: str = "text-embedding-3-small",
-    top_n: int = 3,
+    top_n_similar_records: int = 3,
     questions_per_entity: int = 3,
     max_records_load: int | None = None,
 ) -> list[QAPair]:
@@ -86,7 +86,7 @@ def run_pipeline(
     # Merge: keyword-first, deduplicated
     entity_documents: dict[str, list[str]] = {}
     for entity, entity_emb in zip(entities, entity_embeddings):
-        top_indices = find_top_n_similar(entity_emb, corpus_embeddings, n=top_n)
+        top_indices = find_top_n_similar_records(entity_emb, corpus_embeddings, n=top_n_similar_records)
         embedding_docs = [corpus_texts[i] for i in top_indices]
         seen: set[str] = set()
         combined: list[str] = []
@@ -95,8 +95,10 @@ def run_pipeline(
                 seen.add(doc)
                 combined.append(doc)
         entity_documents[entity] = combined
-    total_pairs = sum(len(docs) for docs in entity_documents.values())
-    logger.debug(f"{total_pairs} entity-QA(s) to process.")
+    logger.debug(
+        f"{len(entity_documents)} entity(ies) × {questions_per_entity} question(s) "
+        f"= {len(entity_documents) * questions_per_entity} expected QA pair(s)."
+    )
 
     # ── 5. Generate QA pairs ──────────────────────────────────────────────────
     logger.info("Generating QA pairs…")
@@ -129,7 +131,7 @@ def main() -> None:
         client_type=args.client,
         model=args.model,
         embedding_model=args.embedding_model,
-        top_n=args.top_n,
+        top_n_similar_records=args.top_n_similar_records,
         questions_per_entity=args.questions_per_entity,
         max_records_load=args.max_records_load,
     )

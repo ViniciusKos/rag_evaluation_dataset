@@ -70,7 +70,7 @@ def generate_qa_pairs(
             raw = response.choices[0].message.content or "{}"
             parsed = json.loads(raw)
 
-            for pair in parsed.get("pairs", []):
+            for pair in parsed.get("pairs", [])[:n_questions_per_entity]:
                 qa_pairs.append(
                     QAPair(
                         entity=entity,

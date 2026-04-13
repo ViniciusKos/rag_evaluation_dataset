@@ -48,7 +48,7 @@ def build_parser() -> argparse.ArgumentParser:
         help="Embedding model for semantic search (default: text-embedding-3-small).",
     )
     parser.add_argument(
-        "--top-n",
+        "--top-n-similar-records",
         type=int,
         default=3,
         help="Number of documents to retrieve per entity via embedding search (default: 3).",
