@@ -46,17 +46,25 @@ After installing, the `qa-generate` console script is available as an alternativ
 
 ## Input document format
 
-Each document must be a **single `.json` file** inside the input directory. A document can have any top-level fields; you tell the pipeline which ones to use via `--search-fields`.
+The input must be a **single `.json` file** containing a JSON array of document records. Each record can have any top-level fields; you tell the pipeline which ones to use via `--search-fields`.
 
-Minimal example (`docs/doc_001.json`):
+Minimal example (`data/documents.json`):
 
 ```json
-{
-  "title": "Introduction to Transformers",
-  "description": "Transformers are a type of neural network architecture introduced in the paper Attention Is All You Need.",
-  "author": "Vaswani et al.",
-  "year": 2017
-}
+[
+  {
+    "title": "Introduction to Transformers",
+    "description": "Transformers are a type of neural network architecture introduced in the paper Attention Is All You Need.",
+    "author": "Vaswani et al.",
+    "year": 2017
+  },
+  {
+    "title": "BERT: Pre-training of Deep Bidirectional Transformers",
+    "description": "BERT is designed to pre-train deep bidirectional representations from unlabeled text.",
+    "author": "Devlin et al.",
+    "year": 2018
+  }
+]
 ```
 
 If you run the pipeline with `--search-fields title description`, the tool will concatenate the `title` and `description` fields to build the corpus text used for entity extraction and search. Fields listed in `--search-fields` that are absent from a document are silently skipped.
@@ -107,40 +115,42 @@ The pipeline can be invoked either via the installed script or directly:
 
 ```bash
 # installed command
-qa-generate --input-dir <DIR> --search-fields <FIELD ...> --output <FILE.json> [options]
+qa-generate --input-file <FILE.json> --search-fields <FIELD ...> --output <FILE.json> [options]
 
 # or via script
-python run_pipeline.py --input-dir <DIR> --search-fields <FIELD ...> --output <FILE.json> [options]
+python run_pipeline.py --input-file <FILE.json> --search-fields <FIELD ...> --output <FILE.json> [options]
 ```
 
 | Argument | Required | Default | Description |
 |---|---|---|---|
-| `--input-dir` | Yes | — | Local path **or** remote URI (e.g. `az://container/prefix/`, `s3://bucket/prefix/`) containing `.json` input files |
+| `--input-file` | Yes | — | Local path **or** remote URI (e.g. `az://container/docs.json`, `s3://bucket/docs.json`) to a JSON file containing a list of document records |
 | `--search-fields` | Yes | — | One or more document fields to use for entity extraction and corpus building |
 | `--output` | Yes | — | Path to the output JSON file |
 | `--client` | No | `openai` | LLM provider: `openai` or `azure` |
-| `--model` | No | `gpt-4o-mini` | Chat model used for entity extraction and QA generation |
+| `--model` | No | `gpt-5.4-mini` | Chat model used for entity extraction and QA generation |
 | `--embedding-model` | No | `text-embedding-3-small` | Embedding model used for semantic search |
 | `--top-n` | No | `3` | Number of documents retrieved per entity via embedding search |
+| `--questions-per-entity` | No | `3` | Number of questions to generate per entity |
 
 ### Complete example
 
 ```bash
 python run_pipeline.py \
-    --input-dir   ./docs \
+    --input-file  ./data/documents.json \
     --search-fields title description \
     --output      qa_output.json \
     --client      openai \
-    --model       gpt-4o-mini \
+    --model       gpt-5.4-mini \
     --embedding-model text-embedding-3-small \
-    --top-n       3
+    --top-n       3 \
+    --questions-per-entity 3
 ```
 
 ### Azure OpenAI example
 
 ```bash
 python run_pipeline.py \
-    --input-dir   ./docs \
+    --input-file  ./data/documents.json \
     --search-fields title description \
     --output      qa_output.json \
     --client      azure \
@@ -156,15 +166,15 @@ python run_pipeline.py \
 
 | Scheme | Backend | Extra install |
 |---|---|---|
-| `./path/` or `/abs/path/` | Local filesystem | — |
-| `az://container/prefix/` | Azure Blob Storage | `pip install -e ".[azure]"` |
-| `s3://bucket/prefix/` | Amazon S3 | `pip install s3fs` |
-| `gcs://bucket/prefix/` | Google Cloud Storage | `pip install gcsfs` |
+| `./path/docs.json` or `/abs/path/docs.json` | Local filesystem | — |
+| `az://container/docs.json` | Azure Blob Storage | `pip install -e ".[azure]"` |
+| `s3://bucket/docs.json` | Amazon S3 | `pip install s3fs` |
+| `gcs://bucket/docs.json` | Google Cloud Storage | `pip install gcsfs` |
 
 ```bash
 # read documents from Azure Blob Storage
 python run_pipeline.py \
-    --input-dir   az://my-container/corpus/ \
+    --input-file  az://my-container/corpus/documents.json \
     --search-fields title description \
     --output      qa_output.json
 ```
